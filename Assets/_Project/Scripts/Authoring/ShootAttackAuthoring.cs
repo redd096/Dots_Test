@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class ShootAttackAuthoring : MonoBehaviour
 {
-    public double timerMax = 0.2;
+    public double rateOfFire = 0.3;
+    public int damageAmount = 5;
     
     class Baker : Baker<ShootAttackAuthoring>
     {
@@ -13,7 +14,8 @@ public class ShootAttackAuthoring : MonoBehaviour
             Entity entity = GetEntity(TransformUsageFlags.Dynamic);
             AddComponent(entity, new ShootAttack()
             {
-                timerMax = authoring.timerMax,
+                timerMax = authoring.rateOfFire,
+                damageAmount = authoring.damageAmount,
             });
         }
     }
@@ -23,4 +25,5 @@ public struct ShootAttack : IComponentData
 {
     public double timer;
     public double timerMax;
+    public int damageAmount;
 }

@@ -5,7 +5,7 @@ class FindTargetAuthoring : MonoBehaviour
 {
     public float range = 7;
     public EFaction targetFaction;
-    public double timerMax = 0.2;
+    public double delayBetweenChecks = 0.2;
 
     class Baker : Baker<FindTargetAuthoring>
     {
@@ -17,7 +17,7 @@ class FindTargetAuthoring : MonoBehaviour
             {
                 range = authoring.range,
                 targetFaction = authoring.targetFaction,
-                timerMax = authoring.timerMax,
+                timerMax = authoring.delayBetweenChecks,
             });
         }
     }
