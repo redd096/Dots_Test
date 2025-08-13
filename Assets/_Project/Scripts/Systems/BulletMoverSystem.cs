@@ -18,19 +18,23 @@ partial struct BulletMoverSystem : ISystem
                 ecb.DestroyEntity(entity);
                 continue;
             }
-            
-            //move bullet to target
+
+            //get target position
             LocalTransform targetTransform = SystemAPI.GetComponent<LocalTransform>(target.ValueRO.targetEntity);
-            float3 moveDirection = targetTransform.Position - localTransform.ValueRO.Position;
+            ShootVictim targetShootVictim = SystemAPI.GetComponent<ShootVictim>(target.ValueRO.targetEntity);
+            float3 targetPosition = targetTransform.TransformPoint(targetShootVictim.hitLocalPosition);
+
+            //move bullet to target
+            float3 moveDirection = targetPosition - localTransform.ValueRO.Position;
             moveDirection = math.normalize(moveDirection);
 
-            float distanceBeforeMove = math.distancesq(localTransform.ValueRO.Position, targetTransform.Position);
+            float distanceBeforeMove = math.distancesq(localTransform.ValueRO.Position, targetPosition);
             localTransform.ValueRW.Position += moveDirection * bullet.ValueRO.speed * SystemAPI.Time.DeltaTime;
 
             //be sure doesn't exceed target position
-            float distanceAfterMove = math.distancesq(localTransform.ValueRO.Position, targetTransform.Position);
+            float distanceAfterMove = math.distancesq(localTransform.ValueRO.Position, targetPosition);
             if (distanceAfterMove > distanceBeforeMove)
-                localTransform.ValueRW.Position = targetTransform.Position;
+                localTransform.ValueRW.Position = targetPosition;
 
             //when reach it, damage it and destroy bullet
             float destroyDistanceSq = 0.2f;
