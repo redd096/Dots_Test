@@ -9,11 +9,11 @@ class FriendlyAuthoring : MonoBehaviour
         {
             //find entity and add component to it
             Entity entity = GetEntity(TransformUsageFlags.Dynamic);
-            AddComponent(entity, new Friednly());
+            AddComponent(entity, new Friendly());
         }
     }
 }
 
-public struct Friednly : IComponentData
+public struct Friendly : IComponentData
 {
 }
