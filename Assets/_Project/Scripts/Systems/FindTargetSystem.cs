@@ -34,6 +34,10 @@ partial struct FindTargetSystem : ISystem
             {
                 foreach (DistanceHit hit in hits)
                 {
+                    //be sure hitted entity exists
+                    if (SystemAPI.Exists(hit.Entity) == false || SystemAPI.HasComponent<Unit>(hit.Entity) == false)
+                        continue;
+
                     //if opposite faction, set target
                     Unit unit = SystemAPI.GetComponent<Unit>(hit.Entity);
                     if (unit.faction == findTarget.ValueRO.targetFaction)
