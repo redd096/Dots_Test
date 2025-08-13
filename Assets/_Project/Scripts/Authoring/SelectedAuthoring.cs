@@ -15,7 +15,7 @@ class SelectedAuthoring : MonoBehaviour
             Entity entity = GetEntity(TransformUsageFlags.Dynamic);
             AddComponent(entity, new Selected()
             {
-                selectedObjEntity = GetEntity(authoring.selectedObj, TransformUsageFlags.Dynamic),
+                selectedObjEntity = GetEntity(authoring.selectedObj, TransformUsageFlags.NonUniformScale),
                 scale = authoring.scale,
             });
             //and set it disabled

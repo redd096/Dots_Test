@@ -5,6 +5,7 @@ class EntitiesReferencesAuthoring : MonoBehaviour
 {
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private GameObject zombiePrefab;
+    [SerializeField] private GameObject shootLightPrefab;
 
     class EntitiesReferencesAuthoringBaker : Baker<EntitiesReferencesAuthoring>
     {
@@ -16,6 +17,7 @@ class EntitiesReferencesAuthoring : MonoBehaviour
             {
                 bulletPrefab = GetEntity(authoring.bulletPrefab, TransformUsageFlags.Dynamic),
                 zombiePrefab = GetEntity(authoring.zombiePrefab, TransformUsageFlags.Dynamic),
+                shootLightPrefab = GetEntity(authoring.shootLightPrefab, TransformUsageFlags.Dynamic),
             });
         }
     }
@@ -25,4 +27,5 @@ public struct EntitiesReferences : IComponentData
 {
     public Entity bulletPrefab;
     public Entity zombiePrefab;
+    public Entity shootLightPrefab;
 }

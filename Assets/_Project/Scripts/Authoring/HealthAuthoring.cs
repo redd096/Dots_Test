@@ -4,6 +4,7 @@ using UnityEngine;
 public class HealthAuthoring : MonoBehaviour
 {
     public int healthAmount = 100;
+    public int healthMax = 100;
 
     class Baker : Baker<HealthAuthoring>
     {
@@ -14,6 +15,8 @@ public class HealthAuthoring : MonoBehaviour
             AddComponent(entity, new Health()
             {
                 healthAmount = authoring.healthAmount,
+                healthmax = authoring.healthMax,
+                onHealthChanged = true, //default true to hide healthBar
             });
         }
     }
@@ -22,4 +25,6 @@ public class HealthAuthoring : MonoBehaviour
 public struct Health : IComponentData
 {
     public int healthAmount;
+    public int healthmax;
+    public bool onHealthChanged;
 }

@@ -4,13 +4,14 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 
-[UpdateInGroup(typeof(LateSimulationSystemGroup))]  //work in LateUpdate instead of Update (not really necessary, it's just to test UpdateBefore)
+[UpdateInGroup(typeof(LateSimulationSystemGroup))]  //work in LateUpdate instead of Update
 [UpdateBefore(typeof(ResetEventsSystem))]           //this is used to call update before than the system that will reset entities events 
 partial struct SelectedVisualSystem : ISystem
 {
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
+        //(set NonUniformScale in SelectedAuthoring to obtain PostTransformMatrix)
         var transformMatrixLookup = SystemAPI.GetComponentLookup<PostTransformMatrix>(isReadOnly: false);
 
         //update scale
