@@ -149,21 +149,26 @@ public class UnitSelectionManager : MonoBehaviour
 
         //cycle every entity with UnitMover and Selected components (and both components enabled)
         EntityManager entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-        EntityQuery entityQuery = new EntityQueryBuilder(Allocator.Temp).WithAll<UnitMover, Selected>().Build(entityManager);
-        // NativeArray<Entity> entities = entityQuery.ToEntityArray(Allocator.Temp);
-        NativeArray<UnitMover> unitMovers = entityQuery.ToComponentDataArray<UnitMover>(Allocator.Temp);
+        // EntityQuery entityQuery = new EntityQueryBuilder(Allocator.Temp).WithAll<UnitMover, Selected>().Build(entityManager);
+        EntityQuery entityQuery = new EntityQueryBuilder(Allocator.Temp).WithAll<Selected>().WithPresent<MoveOverride>().Build(entityManager);
+        NativeArray<Entity> entities = entityQuery.ToEntityArray(Allocator.Temp);
+        // NativeArray<UnitMover> unitMovers = entityQuery.ToComponentDataArray<UnitMover>(Allocator.Temp);
+        NativeArray<MoveOverride> unitMovers = entityQuery.ToComponentDataArray<MoveOverride>(Allocator.Temp);
         NativeArray<float3> positions = GenerateMovePositionArray(mouseWorldPosition, unitMovers.Length);   //generate positions instead of put mouseWorldPosition for everyone
         for (int i = 0; i < unitMovers.Length; i++)
         {
             //set target position
-            UnitMover unitMover = unitMovers[i];
+            var unitMover = unitMovers[i];
             unitMover.targetPosition = positions[i];
+            //new update, now we are using MoveOverride instead of UnitMover. So we have also to enable it
+            entityManager.SetComponentEnabled<MoveOverride>(entities[i], true);
 
             // //and update dots component
             // entityManager.SetComponentData(entities[i], unitMover);
 
             //instead of update dots component, update value for every element and out of the forCycle call only one time to update every dots component
             unitMovers[i] = unitMover;
+
         }
         entityQuery.CopyFromComponentDataArray(unitMovers);
     }
